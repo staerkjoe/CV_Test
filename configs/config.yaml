@@ -3,3 +3,6 @@ roboflow:
   project: "playingcarddetection-tea12-whczv"
   version: 1
   model_format: "yolov8"
+
+data:
+  path: "PlayingCardDetection-1"
