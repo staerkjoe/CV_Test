@@ -3,7 +3,7 @@ roboflow:
   project: "playingcarddetection-tea12-whczv"
   version: 1
   model_format: "yolov8"
-  api_key: "YOUR_ROBOFLOW_API_KEY"
+  api_key: ""
 
 data:
   path: "PlayingCardDetection-1/data.yaml"
@@ -13,7 +13,7 @@ model:
   epochs: 100
   batch_size: 16
   imgsz: 640
-  freeze: 0
+  freeze: 22
 
 wandb:
   project: "yolov8-training"

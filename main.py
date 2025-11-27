@@ -36,7 +36,7 @@ def main():
     rf = Roboflow(api_key=config['roboflow']['api_key'])
     project = rf.workspace(config['roboflow']['workspace']).project(config['roboflow']['project'])
     version = project.version(config['roboflow']['version'])
-    dataset = version.download(config['roboflow']['model_format'])
+    version.download(config['roboflow']['model_format'])
 
     # Load Model
     yolo_model = YoloModel(config)
@@ -55,7 +55,6 @@ def main():
     total_params, trainable_params = visual.count_parameters()
     trainable_param = visual.plot_trainable_parameters(total_params, trainable_params)
     wandb.log({"trainable_parameters_plot": wandb.Image(trainable_param)})
-    
 
     # Evaluate model (results will also sync to W&B)
     metrics = model.val()
