@@ -15,7 +15,6 @@ class DataLoader:
 
     def download_dataset(self, location=None):
         # if no location given, default to repo-root/data
-
         version = self.project.version(self.version)
         dataset = version.download(self.model_format)
         return dataset

@@ -1,5 +1,5 @@
 # ...existing code...
-class Model:
+class YoloModel:
     def __init__(self, config):
         self.config = config
         self.model_name = self.config['model']['name']
@@ -20,13 +20,5 @@ class Model:
             return self.model
         else:
             raise ValueError(f"Unsupported model format: {self.model_format}")
-        
-    def count_parameters(self):
-        """Count total and trainable parameters in the model."""
-        if self.model is None:
-            raise ValueError("Model not loaded. Call load_model() first.")
-        total_params = sum(p.numel() for p in self.model.parameters())
-        trainable_params = sum(p.numel() for p in self.model.parameters() if p.requires_grad)
-        return total_params, trainable_params
 
     

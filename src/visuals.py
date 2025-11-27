@@ -6,6 +6,14 @@ class Visuals:
         self.config = config
         self.model = model
 
+    def count_parameters(self):
+        """Count total and trainable parameters in the model."""
+        if self.model is None:
+            raise ValueError("Model not loaded. Call load_model() first.")
+        total_params = sum(p.numel() for p in self.model.parameters())
+        trainable_params = sum(p.numel() for p in self.model.parameters() if p.requires_grad)
+        return total_params, trainable_params
+
 
     def plot_trainable_parameters(self,total_params, trainable_params):
         if isinstance(total_params, dict):
@@ -16,8 +24,9 @@ class Visuals:
             else:
                 trains = np.array(trainable_params, dtype=float)
         else:
-            totals = np.array(total_params, dtype=float)
-            trains = np.array(trainable_params, dtype=float)
+            # Ensure scalars become 1-D arrays so len() works
+            totals = np.atleast_1d(np.array(total_params, dtype=float))
+            trains = np.atleast_1d(np.array(trainable_params, dtype=float))
             models = [str(i) for i in range(len(totals))]
 
         # Convert to millions for display

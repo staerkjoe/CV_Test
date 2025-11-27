@@ -4,7 +4,7 @@ import yaml
 from pathlib import Path
 from src.data_loader import DataLoader
 from src.visuals import Visuals
-from src.model import Model
+from src.model import YoloModel
 import torch
 from ultralytics.utils import (SETTINGS)
 
@@ -25,6 +25,7 @@ def main():
     imgsz = config['model']['imgsz']
     wandb_project = config['wandb']['project']
     wandb_run_name = config['wandb']['run_name']
+    frozen_layers = config['model']['freeze']
 
     # Set device
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -35,21 +36,24 @@ def main():
     dataloader.download_dataset()
 
     # Load Model
-    model = Model(config)   # pass device into Model
-    model = model.load_model(device=device)  # pass device into load_model
+    yolo_model = YoloModel(config)
+    model = yolo_model.load_model(device=device)  # pass device into load_model
+    model.info()    
+
+    # Train model
+    model.train(data=data_path, epochs=epochs, imgsz=imgsz, batch=batch_size, project=wandb_project ,name=wandb_run_name, save_period=-1, freeze=frozen_layers, exist_ok=True)
 
     # Initialize W&B
     wandb.init(project="yolov8-training", name="run-1")
     SETTINGS["wandb"] = True
 
     # Custom Visualization
-    total_params, trainable_params = model.count_parameters()
     visual = Visuals(config, model)
+    total_params, trainable_params = visual.count_parameters()
     trainable_param = visual.plot_trainable_parameters(total_params, trainable_params)
     wandb.log({"trainable_parameters_plot": wandb.Image(trainable_param)})
     
-    # Train model
-    model.train(data=data_path, epochs=epochs, imgsz=imgsz, batch=batch_size, project=wandb_project ,name=wandb_run_name, save_period=-1, exist_ok=True)
+    
 
     # Evaluate model (results will also sync to W&B)
     metrics = model.val()
