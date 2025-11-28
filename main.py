@@ -59,7 +59,7 @@ def main():
     # Evaluate model (results will also sync to W&B)
     metrics = model.val()
     print(metrics)
-    wandb.log(metrics)
+    #wandb.log(metrics)
 
     # upload best model as a W&B artifact
     artifact = wandb.Artifact("best_model", type="model")
