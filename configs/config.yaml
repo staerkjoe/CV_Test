@@ -10,7 +10,7 @@ roboflow_inference:
   project: "playing-cards-muou8"
   version: 1
   model_format: "yolov8"
-  api_key: "pcHb7siLfJ01eoh5E2bF"
+  api_key: ""
 
 data:
   path: "Playing-Cards-1/data.yaml"

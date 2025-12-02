@@ -18,7 +18,7 @@ def main():
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 
     if not cap.isOpened():
-        print("❌ Could not access webcam.")
+        print("Could not access webcam.")
         return
 
     print("📷 Webcam running... Press 'q' to quit")
@@ -26,7 +26,7 @@ def main():
     while True:
         ret, frame = cap.read()
         if not ret:
-            print("❌ Failed to grab frame")
+            print("Failed to grab frame")
             break
 
         start = time.time()
